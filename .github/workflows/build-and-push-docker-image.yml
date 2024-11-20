@@ -41,7 +41,9 @@ jobs:
         run: |
           docker build -f Docker/Dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
           docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
-          echo "::set-output name=digest::$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest)"
+          digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest)
+          echo "Image digest: $digest"
+          echo "IMAGE_DIGEST=$digest" >> $GITHUB_ENV
 
       # 推送Docker镜像
       - name: 推送Docker镜像
@@ -54,5 +56,6 @@ jobs:
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          subject-digest: ${{ steps.push.outputs.digest }}
+          subject-digest: ${{ env.IMAGE_DIGEST }}
           push-to-registry: true
+          show-summary: true
