@@ -29,7 +29,7 @@ jobs:
 
       # 使用 `docker/login-action` 动作登录到容器注册表，使用将发布包的帐户和密码。发布后，包将归于此处定义的帐户。
       - name: 登录到容器注册表
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -53,6 +53,14 @@ jobs:
         id: get_digest
         run: |
           digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest)
+          if [[ -z "$digest" ]]; then
+            echo "Failed to get image digest"
+            exit 1
+          fi
+          # 确保摘要值以 sha256: 开头
+          if [[ ! "$digest" == sha256:* ]]; then
+            digest="sha256:$digest"
+          fi
           echo "Image digest: $digest"
           echo "IMAGE_DIGEST=$digest" >> $GITHUB_ENV
 
