@@ -37,9 +37,11 @@ jobs:
 
       # 显式构建Docker镜像
       - name: 构建Docker镜像
+        id: build
         run: |
           docker build -f Docker/Dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
           docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
+          echo "::set-output name=digest::$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest)"
 
       # 推送Docker镜像
       - name: 推送Docker镜像
