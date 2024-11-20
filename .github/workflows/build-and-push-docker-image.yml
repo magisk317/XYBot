@@ -52,15 +52,9 @@ jobs:
       - name: 获取镜像摘要
         id: get_digest
         run: |
-          digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest)
-          if [[ -z "$digest" ]]; then
-            echo "Failed to get image digest"
-            exit 1
-          fi
-          # 确保摘要值以 sha256: 开头
-          if [[ ! "$digest" == sha256:* ]]; then
-            digest="sha256:$digest"
-          fi
+          full_digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest)
+          # 提取摘要部分，保留 sha256: 前缀
+          digest=$(echo $full_digest | awk -F '@' '{print $2}')
           echo "Image digest: $digest"
           echo "IMAGE_DIGEST=$digest" >> $GITHUB_ENV
 
