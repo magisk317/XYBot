@@ -1,36 +1,65 @@
-name: Build and Push Docker Image to GitHub Packages
+name: 创建并发布Docker镜像
 
+# 配置此工作流每次向名为 `release` 的分支推送更改时运行。
 on:
   push:
-    branches:
-      - main # 触发构建的分支，这里设置为主分支
-  pull_request:
-    branches:
-      - main
+    branches: ['release']
 
+# 定义两个自定义环境变量，用于容器注册表域名和此工作流构建的Docker镜像名称。
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: magisk317/xybot/xybot
+  CUSTOM_TAG: v2.1.1  # 这里可以手动修改自定义标签
+
+
+# 此工作流中有一个作业。它配置为在最新版本的Ubuntu上运行。
 jobs:
-  build-and-push:
+  build-and-push-image:
     runs-on: ubuntu-latest
+    # 设置授予 `GITHUB_TOKEN` 的权限，用于此作业中的操作。
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - name: 检出仓库
+        uses: actions/checkout@v4
 
-    - name: Login to GitHub Package Registry
-      run: echo "${{ secrets.GHCR_PASSWORD }}" | docker login docker.pkg.github.com -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+      # 使用 `docker/login-action` 动作登录到容器注册表，使用将发布包的帐户和密码。发布后，包将归于此处定义的帐户。
+      - name: 登录到容器注册表
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PASSWORD }}
 
-    - name: Build the Docker image
-      run: docker build -f Docker/Dockerfile -t docker.pkg.github.com/magisk317/xybot/xybot:latest .
+      # 此步骤使用 `docker/metadata-action` 提取将应用于指定镜像的标签和元数据。`id` "meta" 允许在后续步骤中引用此步骤的输出。`images` 值提供标签和元数据的基本名称。
+      - name: 提取Docker的元数据（标签，标签）
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-    - name: Tag the Docker image
-      run: |
-        IMAGE_NAME=docker.pkg.github.com/magisk317/xybot/xybot
-        IMAGE_TAG=$(date +%s)
-        echo "Tagging $IMAGE_NAME:$IMAGE_TAG"
-        docker tag docker.pkg.github.com/magisk317/xybot/xybot:latest $IMAGE_NAME:$IMAGE_TAG
+      # 此步骤使用 `docker/build-push-action` 动作基于仓库的 `Dockerfile` 构建镜像。如果构建成功，它将镜像推送到GitHub Packages。
+      # 它使用 `context` 参数定义构建上下文为指定路径中的文件集。有关更多信息，请参阅 `docker/build-push-action` 仓库README中的 “[Usage](https://github.com/docker/build-push-action#usage)”。
+      # 它使用 `tags` 和 `labels` 参数使用 "meta" 步骤的输出对镜像进行标签和元数据标注。
+      - name: 构建并推送Docker镜像
+        id: push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-    - name: Push the Docker image
-      run: |
-        IMAGE_NAME=docker.pkg.github.com/magisk317/xybot/xybot
-        IMAGE_TAG=$(date +%s)
-        docker push $IMAGE_NAME:$IMAGE_TAG
+      # 此步骤生成镜像的工件证明，这是一个关于镜像在哪里和如何构建的不可伪造声明。它增加了消费镜像的人的供应链安全性。有关更多信息，请参阅 “[使用工件证明建立构建来源](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds)”。
+      - name: 生成工件证明
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
