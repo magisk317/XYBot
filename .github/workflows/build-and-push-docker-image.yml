@@ -20,17 +20,17 @@ jobs:
       run: echo "${{ secrets.GHCR_PASSWORD }}" | docker login docker.pkg.github.com -u ${{ secrets.GHCR_USERNAME }} --password-stdin
 
     - name: Build the Docker image
-      run: docker build -f Docker/Dockerfile -t docker.pkg.github.com/magisk317/XYBot/XYBot:latest .
+      run: docker build -f Docker/Dockerfile -t docker.pkg.github.com/magisk317/xybot/xybot:latest .
 
     - name: Tag the Docker image
       run: |
-        IMAGE_NAME=docker.pkg.github.com/magisk317/XYBot/XYBot
+        IMAGE_NAME=docker.pkg.github.com/magisk317/xybot/xybot
         IMAGE_TAG=$(date +%s)
         echo "Tagging $IMAGE_NAME:$IMAGE_TAG"
-        docker tag docker.pkg.github.com/magisk317/XYBot/XYBot:latest $IMAGE_NAME:$IMAGE_TAG
+        docker tag docker.pkg.github.com/magisk317/xybot/xybot:latest $IMAGE_NAME:$IMAGE_TAG
 
     - name: Push the Docker image
       run: |
-        IMAGE_NAME=docker.pkg.github.com/magisk317/XYBot/XYBot
+        IMAGE_NAME=docker.pkg.github.com/magisk317/xybot/xybot
         IMAGE_TAG=$(date +%s)
         docker push $IMAGE_NAME:$IMAGE_TAG
