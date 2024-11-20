@@ -41,15 +41,20 @@ jobs:
         run: |
           docker build -f Docker/Dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
           docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
-          digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest)
-          echo "Image digest: $digest"
-          echo "IMAGE_DIGEST=$digest" >> $GITHUB_ENV
 
       # 推送Docker镜像
       - name: 推送Docker镜像
         run: |
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
+
+      # 获取镜像摘要
+      - name: 获取镜像摘要
+        id: get_digest
+        run: |
+          digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest)
+          echo "Image digest: $digest"
+          echo "IMAGE_DIGEST=$digest" >> $GITHUB_ENV
 
       # 此步骤生成镜像的工件证明，这是一个关于镜像在哪里和如何构建的不可伪造声明。它增加了消费镜像的人的供应链安全性。有关更多信息，请参阅 “[使用工件证明建立构建来源](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds)”。
       - name: 生成工件证明
