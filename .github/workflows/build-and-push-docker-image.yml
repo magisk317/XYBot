@@ -55,7 +55,9 @@ jobs:
         run: |
           docker build -f Docker/Dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
           docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
-          docker tag docker.io/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
+          
+          docker build -f Docker/Dockerfile -t docker.io/${{ env.IMAGE_NAME }}:latest .
+          docker tag docker.io/${{ env.IMAGE_NAME }}:latest docker.io/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
 
 
       # 推送Docker镜像
