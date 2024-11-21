@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       # 使用 `docker/login-action` 动作登录到容器注册表，使用将发布包的帐户和密码。发布后，包将归于此处定义的帐户。
       - name: 登录到容器注册表
