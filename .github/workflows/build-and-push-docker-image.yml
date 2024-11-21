@@ -11,7 +11,7 @@ on:
 # 定义两个自定义环境变量，用于容器注册表域名和此工作流构建的Docker镜像名称。
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: magisk317/xybot/xybot
+  IMAGE_NAME: magisk317/xybot
   CUSTOM_TAG: v2.1.1  # 这里可以手动修改自定义标签
 
 
