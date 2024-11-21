@@ -3,7 +3,7 @@ name: 创建并发布Docker镜像
 # 配置此工作流每次向名为 `release` 的分支推送更改时运行。
 on:
   push:
-    branches: ['release']
+    branches: ['main']
 
 # 定义两个自定义环境变量，用于容器注册表域名和此工作流构建的Docker镜像名称。
 env:
