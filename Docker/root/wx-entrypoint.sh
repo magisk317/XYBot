@@ -13,10 +13,6 @@ function wechat() {
         esac
     done
 }
-
-
-/entrypoint.sh &
 sleep 5
 wechat &
-xybot-start &
 wait
