@@ -14,7 +14,9 @@ function wechat() {
     done
 }
 
-/wx-entrypoint.sh
+
+/wx-entrypoint.sh &
 sleep 5
 wechat &
+xybot-start &
 wait
