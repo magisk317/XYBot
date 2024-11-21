@@ -4,6 +4,7 @@
 
 import requests
 import re
+import os
 import yaml
 from loguru import logger
 from utils.database import BotDatabase

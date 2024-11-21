@@ -3,6 +3,7 @@
 #  This program is licensed under the GNU General Public License v3.0.
 
 import re
+import os
 import yaml
 from loguru import logger
 from wcferry import client
