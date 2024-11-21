@@ -31,3 +31,8 @@ whitelist: [ ]
 openai_api_base: ""
 #ChatGPT API的Key
 openai_api_key: ""
+
+# ------------------------------------------------------------------------------ #
+# kimi设置，插件使用到，私聊gpt也使用到
+kimi_api_base: ""
+kimi_api_key: ""
