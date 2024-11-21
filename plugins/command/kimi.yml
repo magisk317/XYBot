@@ -1,0 +1,10 @@
+keywords: [ "kimi","KIMI","KiMi","Kimi" ]
+plugin_name: "kimi"
+
+command_format_menu: "⚙️向AI提问：\nkimi 问题"
+
+gpt_point_price: 3
+
+gpt_version: 'moonshot-v1-8k'
+gpt_max_token: 1000
+gpt_temperature: 0.5
