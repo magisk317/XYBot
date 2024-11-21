@@ -28,8 +28,10 @@ class kimi(PluginInterface):
             main_config = yaml.safe_load(f.read())
 
         self.admins = main_config["admins"]
-        self.kimi_api_base = main_config["kimi_api_base"]
-        self.kimi_api_key = main_config["kimi_api_key"]
+
+        # 从docker compose中获取api链接和密钥
+        self.kimi_api_base = os.getenv("KIMI_API_BASE")  # Kimi api 链接
+        self.kimi_api_key = os.getenv("KIMI_API_KEY")  # Kimi api 密钥
 
         sensitive_words_path = "sensitive_words.yml"
         with open(sensitive_words_path, "r", encoding="utf-8") as f:
