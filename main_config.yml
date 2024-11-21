@@ -34,5 +34,10 @@ openai_api_key: ""
 
 # ------------------------------------------------------------------------------ #
 # kimi设置，插件使用到，私聊gpt也使用到
-kimi_api_base: ""
+kimi_api_base: "https://api.moonshot.cn/v1/chat/completions"
 kimi_api_key: ""
+
+# ------------------------------------------------------------------------------ #
+# 智谱大模型设置
+bigModelApi: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+bigModelApiKey: ""

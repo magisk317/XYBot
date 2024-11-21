@@ -1,0 +1,9 @@
+keywords: [ "bigmodel","big_model","智谱清言","智谱","智谱大模型" ]
+plugin_name: "big_model"
+
+command_format_menu: "⚙️向AI提问：\nbig_model 问题"
+
+point_price: 3
+model_version: 'glm-4-plus'
+max_token: 1000
+temperature: 0.5
