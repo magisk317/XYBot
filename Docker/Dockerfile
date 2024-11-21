@@ -3,7 +3,7 @@ FROM henryxiaoyang/wechat-box-3.9.10.27:latest
 # clear /payloads
 RUN sudo rm -rf /payloads
 
-COPY Docker/root/ /
+COPY root/ /
 
 # init with GUI
 RUN bash -c 'nohup /entrypoint.sh 2>&1 &' && sleep 5 && /payloads.sh \
