@@ -12,6 +12,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: magisk317/xybot
+  HUB_IMAGE_NAME: alpha317/xybot
   CUSTOM_TAG: v2.1.1  # 这里可以手动修改自定义标签
 
 
@@ -56,8 +57,8 @@ jobs:
           docker build -f Docker/Dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
           docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
           
-          docker build -f Docker/Dockerfile -t docker.io/${{ env.IMAGE_NAME }}:latest .
-          docker tag docker.io/${{ env.IMAGE_NAME }}:latest docker.io/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
+          docker build -f Docker/Dockerfile -t docker.io/${{ env.HUB_IMAGE_NAME }}:latest .
+          docker tag docker.io/${{ env.HUB_IMAGE_NAME }}:latest docker.io/${{ env.HUB_IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
 
 
       # 推送Docker镜像
@@ -65,8 +66,8 @@ jobs:
         run: |
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
-          docker push docker.io/${{ env.IMAGE_NAME }}:latest
-          docker push docker.io/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
+          docker push docker.io/${{ env.HUB_IMAGE_NAME }}:latest
+          docker push docker.io/${{ env.HUB_IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
 
       # 获取镜像摘要
       - name: 获取镜像摘要
