@@ -13,6 +13,8 @@ function wechat() {
         esac
     done
 }
+
+/wx-entrypoint.sh
 sleep 5
 wechat &
 wait
