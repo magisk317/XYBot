@@ -38,6 +38,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_PASSWORD }}
 
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
       # 显式构建Docker镜像
       - name: 构建Docker镜像
         id: build
@@ -50,6 +58,8 @@ jobs:
         run: |
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
+          docker push docker.io/${{ env.IMAGE_NAME }}:latest
+          docker push docker.io/${{ env.IMAGE_NAME }}:${{ env.CUSTOM_TAG }}
 
       # 获取镜像摘要
       - name: 获取镜像摘要
