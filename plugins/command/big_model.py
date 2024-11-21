@@ -30,8 +30,8 @@ class big_model(PluginInterface):
 
         self.admins = main_config["admins"]  # 获取管理员列表
 
-        self.api_base = main_config["bigModelApi"]  # 智谱大模型api链接
-        self.api_key = main_config["bigModelApiKey"]  # 智谱大模型api密钥
+        self.bm_api_base = os.getenv("BM_API_BASE")  # 智谱大模型api链接
+        self.bm_api_key = os.getenv("BM_API_KEY")  # 智谱大模型api密钥
 
         sensitive_words_path = "sensitive_words.yml"  # 加载敏感词yml
         with open(sensitive_words_path, "r", encoding="utf-8") as f:  # 读取设置
@@ -84,7 +84,7 @@ class big_model(PluginInterface):
     async def big_model(self, request_message):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.api_key}"
+            "Authorization": f"Bearer {self.bm_api_key}"
         }
         data = {
             "messages": [
@@ -96,7 +96,7 @@ class big_model(PluginInterface):
         }
         async with ClientSession() as session:
             try:
-                async with session.post(self.api_base, headers=headers, json=data) as response:
+                async with session.post(self.bm_api_base, headers=headers, json=data) as response:
                     result = await response.json()
                     if response.status == 200:
                         return True, result['choices'][0]['message']['content']
