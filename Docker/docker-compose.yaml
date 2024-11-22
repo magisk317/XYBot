@@ -2,11 +2,16 @@ version: "3.3"
 
 services:
     xybot:
-        image: "henryxiaoyang/xybot:v2.0.0"
+        image: "alpha317/xybot:latest"
         restart: unless-stopped
         container_name: "XYBot"
         environment:
             WC_AUTO_RESTART: "yes"
+            KIMI_API_BASE: "https://api.kimi.moonshot.cn/v1/chat/completions"
+            KIMI_API_KEY: "********"
+            BM_API_BASE: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+            BM_API_KEY: "********"
+            WEATHER_API_KEY: "********"
         ports:
             - "4000:8080"
         extra_hosts:
