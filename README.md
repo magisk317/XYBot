@@ -2,8 +2,10 @@
 
 1. 新增[kimi](https://kimi.moonshot.cn/)接口（调试中）
 2. 新增[BigModel](https://bigmodel.cn/)接口
-3. 修改kimi和bigmodel的参数为系统变量获取（docker compose中配置）
-4. ...
+3. 新增[FLUX文生图](https://bailian.console.aliyun.com/#/model-market/detail/flux-schnell?tabKey=sdk)模型
+4. 新增[通义千问2.5](https://bailian.console.aliyun.com/?accounttraceid=2108f12866c340b98d854cf615e2a64fmlog#/model-market/detail/qwen2.5-3b-instruct?tabKey=sdk)模型
+5. 修改kimi和bigmodel的参数为系统变量获取（docker compose中配置）
+6. ...
 
 # XYBot 微信机器人
 
@@ -79,6 +81,12 @@ v大版本(hook/微信版本变动时更改).功能版本.Bug修复版本
 
 **[🔗XYBot 文档](https://henryxiaoyang.github.io/XYBot)**
 
+## 测试交流群
+
+<p align="center">
+    <img alt="XYBot二维码" width="360" src="https://github.com/magisk317/README_Images/blob/main/XYBotFork/%E4%BA%A4%E6%B5%81%E7%BE%A4.jpg">
+</p>
+
 ## 功能演示
 
 菜单
@@ -142,15 +150,7 @@ python start.py
 
 **[🔗模板插件仓库️](https://github.com/HenryXiaoYang/XYBot-Plugin-Framework)**
 
-## XYBot交流群
-
-<p align="center">
-    <img alt="XYBot二维码" width="360" src="https://file.yangres.com/xybot-wechatgroup.jpeg">
-</p>
-
-[**🔗图片会被缓存，点我查看最新二维码**](https://file.yangres.com/xybot-wechatgroup.jpeg)
-
-## 捐赠
+## 赞助原作者
 
 <p align="center"><img alt="爱发电二维码" width="360" src="https://github.com/HenryXiaoYang/HXY_Readme_Images/blob/main/XYBot/v0.0.7/README/aifadian.jpg?raw=true"></p>
 <p align="center">你的赞助是我创作的动力！🙏</p>
