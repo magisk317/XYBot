@@ -3,7 +3,7 @@
 #  This program is licensed under the GNU General Public License v3.0.
 
 import re
-
+import os
 import aiohttp
 import yaml
 from loguru import logger
@@ -22,7 +22,7 @@ class weather(PluginInterface):
 
         self.command_format_menu = config["command_format_menu"]  # 指令格式
 
-        self.weather_api_key = config["weather_api_key"]
+        self.weather_api_key = os.getenv("WEATHER_API_KEY")  
 
         self.db = BotDatabase()
 
