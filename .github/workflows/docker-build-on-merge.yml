@@ -30,3 +30,4 @@ jobs:
         context: ./Docker
         push: true
         tags: alpha317/xybot:latest,alpha317/xybot:${{ env.GIT_SHA }}
+        no-cache: true
