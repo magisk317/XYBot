@@ -38,7 +38,7 @@ class qwen(PluginInterface):
         self.db = BotDatabase()
 
         # 从环境变量中获取API密钥
-        self.api_key = os.getenv("FLUX_API_KEY")
+        self.api_key = os.getenv("DASHSCOPE_API_KEY")
 
     async def run(self, bot: client.Wcf, recv: XYBotWxMsg):
         recv.content = re.split(" |\u2005", recv.content)  # 拆分消息
@@ -87,7 +87,7 @@ class qwen(PluginInterface):
             "Authorization": f"Bearer {self.api_key}"
         }
         data = {
-            "prompt": request_message,
+            "messages": [{"role": "user", "content": request_message}],  # 修改为包含messages参数
             "model": self.model,
             "max_tokens": self.max_tokens,
             "temperature": self.temperature
