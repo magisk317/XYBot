@@ -1,0 +1,12 @@
+keywords: [ "flux" ]
+plugin_name: "flux"
+
+command_format_menu: "⚙️向FLUX提问：\nFLUX 画一个xxx"
+
+# 官方文档：https://bailian.console.aliyun.com/?accounttraceid=2108f12866c340b98d854cf615e2a64fmlog#/model-market/detail/flux-schnell
+
+model: flux-schnell  # 模型名称
+size: 1024*1024      # 图片尺寸
+seed: 114514         # 随机种子
+guidance: 3          # 指导权重
+steps: 30            # 采样步骤
