@@ -1,3 +1,10 @@
+# Fork自原项目，主要修改如下
+
+1. 新增[kimi](https://kimi.moonshot.cn/)接口（调试中）
+2. 新增[BigModel](https://bigmodel.cn/)接口
+3. 修改kimi和bigmodel的参数为系统变量获取（docker compose中配置）
+4. ...
+
 # XYBot 微信机器人
 
 <p align="center">
@@ -108,7 +115,12 @@ docker run -d --name XYBot \
   --tty \
   henryxiaoyang/xybot:v2.0.0
 ```
-
+### Docker Compose
+```shell
+1. 配置文件：Docker/docker-compose.yaml
+2. 填写对应密钥
+3. 启动：docker compose up -d
+```
 ### Windows
 
 需要 Git 与 [Python3](https://www.python.org/downloads/release/python-3127/) 与 [微信3.9.10.27](https://github.com/lich0821/WeChatFerry/releases/download/v39.2.4/WeChatSetup-3.9.10.27.exe)
