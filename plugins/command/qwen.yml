@@ -1,0 +1,8 @@
+keywords: [ "Qwen","qwen","千文","通义千问","小千" ]
+plugin_name: "qwen"
+
+command_format_menu: "⚙️向通义千问提问：\n小千 问题"
+
+model: 'qwen2.5-3b-instruct'
+max_tokens: 1000
+temperature: 0.5
